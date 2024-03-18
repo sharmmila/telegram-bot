@@ -45,3 +45,10 @@ class Database:
             (tg_id,)
         )
         self.conn.commit()
+
+    def insert_profile(self, tg_id, nickname, bio, age, married, gender, hobbies, location, photo):
+        self.cursor.execute(
+            sql_quries.INSERT_PROFILE_QUERY,
+            (None, tg_id, nickname, bio, age, married, gender, hobbies, location, photo)
+        )
+        self.conn.commit()
