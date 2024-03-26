@@ -5,7 +5,8 @@ from handlers import (
     questionnaire,
     group_actions,
     registration,
-    profile
+    profile,
+    reference
 )
 from database import bot_db
 
@@ -20,6 +21,7 @@ questionnaire.register_questionnaire_handlers(dp=dp)
 registration.register_registration_handlers(dp=dp)
 group_actions.register_group_actions_handlers(dp=dp)
 profile.register_profile_handlers(dp=dp)
+reference.register_reference_handlers(dp=dp)
 
 if __name__ == "__main__":
     executor.start_polling(
