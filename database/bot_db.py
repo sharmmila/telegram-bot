@@ -1,6 +1,7 @@
 import sqlite3
 from database import sql_quries
 
+
 class Database:
     def __init__(self):
         self.conn = sqlite3.connect('db.sqlite3')
@@ -16,6 +17,8 @@ class Database:
         self.conn.execute(sql_quries.CREATE_LIKE_TABLE_QUERY)
         self.conn.execute(sql_quries.CREATE_DISLIKE_TABLE_QUERY)
         self.conn.execute(sql_quries.CREATE_REFERENCE_TABLE_QUERY)
+        self.conn.execute(sql_quries.CREATE_NEWS_TABLE_QUERY)
+        self.conn.execute(sql_quries.CREATE_MOVIES_TABLE_QUERY)
         self.conn.commit()
 
     def sql_insert_user(self, tg_id, username, first_name, last_name):
@@ -179,5 +182,19 @@ class Database:
         self.cursor.execute(
             sql_quries.SELECT_REFERENCE_LIST,
             (tg_id,)
+        )
+        self.conn.commit()
+
+    def insert_news(self, link):
+        self.cursor.execute(
+            sql_quries.INSERT_NEWS_QUERY,
+            (None, link,)
+        )
+        self.conn.commit()
+
+    def insert_movies(self, link):
+        self.cursor.execute(
+            sql_quries.INSERT_MOVIES_QUERY,
+            (None, link,)
         )
         self.conn.commit()

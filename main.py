@@ -6,7 +6,8 @@ from handlers import (
     group_actions,
     registration,
     profile,
-    reference
+    reference,
+    scraper
 )
 from database import bot_db
 
@@ -22,6 +23,7 @@ registration.register_registration_handlers(dp=dp)
 group_actions.register_group_actions_handlers(dp=dp)
 profile.register_profile_handlers(dp=dp)
 reference.register_reference_handlers(dp=dp)
+scraper.register_scraper_handlers(dp=dp)
 
 if __name__ == "__main__":
     executor.start_polling(
