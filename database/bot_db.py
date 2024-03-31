@@ -185,16 +185,16 @@ class Database:
         )
         self.conn.commit()
 
-    def insert_news(self, link):
-        self.cursor.execute(
-            sql_quries.INSERT_NEWS_QUERY,
-            (None, link,)
-        )
-        self.conn.commit()
-
-    def insert_movies(self, link):
-        self.cursor.execute(
-            sql_quries.INSERT_MOVIES_QUERY,
-            (None, link,)
-        )
-        self.conn.commit()
+    # def insert_news(self, link):
+    #     self.cursor.execute(
+    #         sql_quries.INSERT_NEWS_QUERY,
+    #         (None, link,)
+    #     )
+    #     self.conn.commit()
+    #
+    # def insert_movies(self, link):
+    #     self.cursor.execute(
+    #         sql_quries.INSERT_MOVIES_QUERY,
+    #         (None, link,)
+    #     )
+    #     self.conn.commit()

@@ -7,15 +7,15 @@ from handlers import (
     registration,
     profile,
     reference,
-    scraper
+    async_scraper
 )
-from database import bot_db
+
+from database import async_database
 
 
 async def on_startup(_):
-    db = bot_db.Database()
-    db.sql_create_tables()
-
+    db = async_database.AsyncDatabase
+    db.create_tables()
 
 start.register_start_handler(dp=dp)
 questionnaire.register_questionnaire_handlers(dp=dp)
@@ -23,7 +23,7 @@ registration.register_registration_handlers(dp=dp)
 group_actions.register_group_actions_handlers(dp=dp)
 profile.register_profile_handlers(dp=dp)
 reference.register_reference_handlers(dp=dp)
-scraper.register_scraper_handlers(dp=dp)
+async_scraper.register_async_scraper_handlers(dp=dp)
 
 if __name__ == "__main__":
     executor.start_polling(
