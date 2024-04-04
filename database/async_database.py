@@ -1,6 +1,6 @@
 import sqlite3
 import aiosqlite
-from database import sql_quries
+from database import sql_queries
 
 
 class AsyncDatabase:
@@ -9,17 +9,15 @@ class AsyncDatabase:
 
     async def create_tables(self):
         async with aiosqlite.connect(self.db_path) as db:
-            await db.execute(sql_quries.CREATE_USER_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_PROFILE_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_LIKE_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_DISLIKE_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_REFERENCE_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_ASYNC_NEWS_TABLE_QUERY)
-            await db.execute(sql_quries.CREATE_ASYNC_Movies_TABLE_QUERY)
+            await db.execute(sql_queries.CREATE_USER_TABLE_QUERY)
+            await db.execute(sql_queries.CREATE_BAN_USER_TABLE_QUERY)
+            await db.execute(sql_queries.CREATE_PROFILE_TABLE_QUERY)
+            await db.execute(sql_queries.CREATE_LIKE_TABLE_QUERY)
+            await db.execute(sql_queries.CREATE_REFERENCE_TABLE_QUERY)
 
             try:
-                await db.execute(sql_quries.ALTER_TABLE_USER_QUERY)
-                await db.execute(sql_quries.ALTER_TABLE_USER_V2_QUERY)
+                await db.execute(sql_queries.ALTER_TABLE_USER_QUERY)
+                await db.execute(sql_queries.ALTER_TABLE_USER_V2_QUERY)
             except sqlite3.OperationalError:
                 pass
 
@@ -39,5 +37,3 @@ class AsyncDatabase:
             elif fetch == 'none':
                 await db.commit()
                 return
-
-

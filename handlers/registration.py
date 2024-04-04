@@ -1,4 +1,3 @@
-
 from aiogram import types, Dispatcher
 from config import bot, MEDIA_DESTINATION
 from database import bot_db
@@ -13,8 +12,6 @@ class RegistrationStates(StatesGroup):
     age = State()
     married = State()
     gender = State()
-    hobbies = State()
-    location = State()
     photo = State()
 
 
@@ -106,33 +103,10 @@ async def load_gender(message: types.Message,
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        text='Tell me about your hobbies!'
+        text='Send me ur photo, please!'
     )
     await RegistrationStates.next()
 
-async def load_hobbies(message: types.Message,
-                      state: FSMContext):
-    async with state.proxy() as data:
-        data['hobbies'] = message.text
-        print(data)
-
-    await bot.send_message(
-        chat_id=message.from_user.id,
-        text='Where are you from?!'
-    )
-    await RegistrationStates.next()
-
-async def load_location(message: types.Message,
-                      state: FSMContext):
-    async with state.proxy() as data:
-        data['location'] = message.text
-        print(data)
-
-    await bot.send_message(
-        chat_id=message.from_user.id,
-        text='Send me your photo, please!'
-    )
-    await RegistrationStates.next()
 
 async def load_photo(message: types.Message,
                      state: FSMContext):
@@ -142,17 +116,30 @@ async def load_photo(message: types.Message,
     )
     print(message.photo)
     async with state.proxy() as data:
-        db.insert_profile(
-            tg_id=message.from_user.id,
-            nickname=data['nickname'],
-            bio=data['bio'],
-            age=data['age'],
-            married=data['married'],
-            gender=data['gender'],
-            hobbies=data['hobbies'],
-            location=data['location'],
-            photo=path.name
+        profile = db.select_profile(
+            tg_id=message.from_user.id
         )
+
+        if not profile:
+            db.insert_profile(
+                tg_id=message.from_user.id,
+                nickname=data['nickname'],
+                bio=data['bio'],
+                age=data['age'],
+                married=data['married'],
+                gender=data['gender'],
+                photo=path.name
+            )
+        else:
+            db.update_profile(
+                nickname=data['nickname'],
+                bio=data['bio'],
+                age=data['age'],
+                married=data['married'],
+                gender=data['gender'],
+                photo=path.name,
+                tg_id=message.from_user.id,
+            )
 
         with open(path.name, 'rb') as photo:
             await bot.send_photo(
@@ -163,14 +150,13 @@ async def load_photo(message: types.Message,
                     bio=data['bio'],
                     age=data['age'],
                     married=data['married'],
-                    gender=data['gender'],
-                    hobbies=data['hobbies'],
-                    location=data['location']
+                    gender=data['gender']
                 )
             )
     await bot.send_message(
         chat_id=message.from_user.id,
-        text='U have successfully Registered!'
+        text='U have successfully Registered 🎉🍾\n'
+             'Congrats Comrade!!!'
     )
     await state.finish()
 
@@ -203,16 +189,6 @@ def register_registration_handlers(dp: Dispatcher):
     dp.register_message_handler(
         load_gender,
         state=RegistrationStates.gender,
-        content_types=['text']
-    )
-    dp.register_message_handler(
-        load_hobbies,
-        state=RegistrationStates.hobbies,
-        content_types=['text']
-    )
-    dp.register_message_handler(
-        load_location,
-        state=RegistrationStates.location,
         content_types=['text']
     )
     dp.register_message_handler(

@@ -1,9 +1,6 @@
-from aiogram import types, Dispatcher
-from config import bot
-from database.bot_db import Database
-from keyboards.scraper import scraper_keyboard
-from scraper.news_scraper import NewsScraper, MoviesScraper
-
+# from aiogram import types, Dispatcher
+# from config import bot
+# from database.bot_db import Database
 # async def news_menu_call(call: types.CallbackQuery):
 #     await bot.send_message(
 #         chat_id=call.from_user.id,

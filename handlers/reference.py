@@ -42,21 +42,6 @@ async def reference_link_call(call: types.CallbackQuery):
         )
 
 
-async def reference_list_call(call: types.CallbackQuery):
-    db = Database()
-    user = db.select_user(tg_id=call.from_user.id)
-    table = db.select_reference_user_info(tg_id=call.from_user.id)
-    if user in table:
-        await bot.send_message(
-            chat_id=call.from_user.id,
-            text=f"Ur reference list {db.select_reference_list(tg_id=call.from_user.id)}"
-        )
-    else:
-        await bot.send_message(
-            chat_id=call.from_user.id,
-            text=f"U doesnt have any references yet"
-        )
-
 def register_reference_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(
         reference_menu_call,
@@ -65,8 +50,4 @@ def register_reference_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(
         reference_link_call,
         lambda call: call.data == "reference_link"
-    )
-    dp.register_callback_query_handler(
-        reference_list_call,
-        lambda call: call.data == "reference_list"
     )

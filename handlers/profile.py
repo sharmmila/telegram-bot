@@ -6,7 +6,7 @@ import const
 from config import bot
 from keyboards.profile import profile_keyboard, my_profile_keyboard
 from database.bot_db import Database
-from database import sql_quries
+from database import sql_queries
 from database.async_database import AsyncDatabase
 import random
 
@@ -43,7 +43,7 @@ async def random_profile_call(call: types.CallbackQuery):
         await call.message.delete()
     db = AsyncDatabase()
     profiles = await db.execute_query(
-        query=sql_quries.SELECT_LEFT_JOIN_PROFILE_QUERY,
+        query=sql_queries.SELECT_LEFT_JOIN_PROFILE_QUERY,
         params=(
             call.from_user.id,
             call.from_user.id,
